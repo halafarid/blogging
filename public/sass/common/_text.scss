@@ -1,0 +1,22 @@
+.text {
+    &--sm {
+        font-size: $font-sm;
+    }
+    
+    &--md {
+        font-size: $font-md;
+    }
+
+    &--normal {
+        font-size: $font-normal;
+    }
+
+    &--lg {
+        font-size: $font-lg;
+    }
+
+    &--upper {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+}

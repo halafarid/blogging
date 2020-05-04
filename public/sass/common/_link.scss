@@ -1,0 +1,12 @@
+.link {
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+
+    &--light {
+        color: $secondary;
+
+        &:hover {
+            font-weight: bold;
+        }
+    }
+}

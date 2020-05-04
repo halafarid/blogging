@@ -1,0 +1,54 @@
+.form {
+    position: relative;
+    border: $border-white;
+    border-radius: 10px;
+    padding: 5px 15px 20px;
+    
+    &__group {
+        position: relative;
+        margin: 10px 0;
+    }
+
+    &__control {
+        outline: 0 !important;
+        padding: 10px 20px;
+        margin-top: 10px;
+        width: 100%;
+        border: $border-info;
+        border-radius: 10px;
+
+        // with icon
+        &--pad {
+            padding: 15px 0 15px 50px;
+        }
+
+        &:focus {
+            box-shadow: 2px 2px 10px $primary-alt;
+        }
+    }
+
+    &__icon {
+        @include abs-position(18px, 10px);
+        font-size: 25px;
+        color: $info;
+    }
+
+    &__logo {
+        position: relative;
+        margin: 0 auto 30px;
+        width: 50px;
+
+        &-bg {
+            position: absolute;
+            top: -45px;
+            background-color: $primary;
+            padding: 15px 20px;
+            border-radius: 50%;
+        }
+
+        &-icon {
+            font-size: 30px;
+            color: $white;
+        }
+    }
+}

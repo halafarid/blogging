@@ -1,0 +1,15 @@
+.auth {
+    width: 30%;
+    margin: 0 auto;
+    @include abs-position(20%, 50%);
+    transform: translate(-50%);
+
+    &__text {
+        margin: 10px 20px;
+        color: $info;
+    }
+
+    &__submit {
+        margin-top: 15px;
+    }
+}
