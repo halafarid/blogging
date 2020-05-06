@@ -6,7 +6,7 @@ const Navigation = props => {
     return ( 
         <React.Fragment>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="navbar">
-                <div className="container">
+                <div className="container-fluid">
                     <Navbar.Brand as={Link} to="/">Logo</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">

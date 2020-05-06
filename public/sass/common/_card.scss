@@ -1,13 +1,14 @@
 .card {
-    border-radius: 20px;
-    margin-top: 50px;
+    margin-bottom: 30px;
+    border: 1px solid #aaa;
+    box-shadow: 2px 2px 5px #aaa;
 
-    &__top {
+    &__title {
         color: $primary;
         font-weight: bold;
     }
     
-    &__title {
+    &__subtitle {
         color: $secondary;
         font-weight: bold;
         text-transform: capitalize;
@@ -15,10 +16,5 @@
     
     &__header-img {
         background-image: url('../../../src/images/bg.png');
-        border-radius: 20px 20px 0 0;
-    }
-    
-    &__home {
-        width: 25%;
     }
 }

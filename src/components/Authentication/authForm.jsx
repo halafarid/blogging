@@ -9,7 +9,7 @@ const AuthForm = ({account, errors, handleChange, handleSubmit, match}) => {
         <React.Fragment>
             <ToastContainer />
 
-            <div className="layout">
+            <div className="layout--bg">
                 <div className="auth">
                     <form className="form">
                         <div className="form__logo">
@@ -75,8 +75,8 @@ const AuthForm = ({account, errors, handleChange, handleSubmit, match}) => {
                         }
                     </form>
 
-                    {match.path === '/auth/login' && <p className="auth__text">Don't have an account? <Link to="/auth/registration" className="link link--light text--upper">Register Here</Link></p>}
-                    {match.path === '/auth/registration' && <p className="auth__text">Do you have an account? <Link to="/auth/login" className="link link--light text--upper">Login Here</Link></p>}
+                    {match.path === '/auth/login' && <p className="auth__text">Don't have an account? <Link to="/auth/registration" className="link link--secondary text--upper">Register Here</Link></p>}
+                    {match.path === '/auth/registration' && <p className="auth__text">Do you have an account? <Link to="/auth/login" className="link link--secondary text--upper">Login Here</Link></p>}
                 </div>
             </div>
         </React.Fragment>

@@ -14,24 +14,24 @@ const InformationCard = ({ account, match }) => {
         <React.Fragment>
             <Card className={profilePath || profileUser ? "card profile__card" : "card card__home"}>
                 <div className="card__header-img">
-                    <Card.Body>
+                    <Card.Header>
                         {
                             profilePath ?
                                 <React.Fragment>
-                                    <h3 className="card__title">Personal Information</h3>
+                                    <h3 className="card__subtitle">Personal Information</h3>
                                 </React.Fragment>
                             :
                             profileUser ?
                                 <React.Fragment>
-                                    <h3 className="card__title">{account.fullName}</h3>
+                                    <h3 className="card__subtitle">{account.fullName}</h3>
                                 </React.Fragment>
                             :
                                 <React.Fragment>
-                                    <Card.Title className="card__top">Welcome</Card.Title>
-                                    <h3 className="card__title">Hala Farid</h3>
+                                    <Card.Title className="card__title">Welcome</Card.Title>
+                                    <h3 className="card__subtitle">Hala Farid</h3>
                                 </React.Fragment>
                         }
-                    </Card.Body>
+                    </Card.Header>
                 </div>
                 <Card.Body>
                     <ul className={profilePath || profileUser ? "list-unstyled list list__inline" : "list-unstyled list"}>
@@ -67,7 +67,7 @@ const InformationCard = ({ account, match }) => {
                         </Media>
 
                         {!profileUser && 
-                            <Link to="/following" className="link" style={{ display: 'contents'}}>
+                            <Link to="/following" className="link link--fw" style={{ display: 'contents'}}>
                                 <Media as="li" className={profilePath ? "list__item list__item--mb profile__list" : "list__item list__item--mb"}>
                                     <div className="mr-3 form__icon">
                                         <RiUserFollowLine />
@@ -78,7 +78,7 @@ const InformationCard = ({ account, match }) => {
                         }
 
                         {!profileUser && 
-                            <Link to="/followers" className="link">
+                            <Link to="/followers" className="link link--fw">
                                 <Media as="li" className={profilePath ? "list__item list__item--mb profile__list" : "list__item list__item--mb"}>
                                     <div className="mr-3 form__icon">
                                         <GiShadowFollower />

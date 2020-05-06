@@ -1,0 +1,39 @@
+.post {
+    &__card {
+       min-height: 100px;
+    }
+
+    &__heading {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    &__icons {
+        padding: 5px 20px;
+        background-color: $white;
+
+        &-div {
+            cursor: pointer;
+            display: inline-block;
+            width: 33%;
+            text-align: center;
+            padding: 5px 0;
+
+            &:hover {
+                background-color: $light;
+            }
+        }
+    }
+
+    &__icon {
+        font-size: $font-xl;
+        margin-right: 5px;
+    }
+
+    &__link {
+        cursor: pointer;
+        color: $primary;
+        font-weight: bold;
+    }
+}

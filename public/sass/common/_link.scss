@@ -1,12 +1,25 @@
 .link {
     text-decoration: none !important;
     transition: all 0.3s ease-in-out;
+    color: #0073b1 !important;
 
-    &--light {
+    &--secondary {
         color: $secondary !important;
 
         &:hover {
             font-weight: bold !important;
         }
+    }
+
+    &--primary {
+        color: $primary !important;
+    }
+
+    &--primary-alt {
+        color: $primary-alt !important;
+    }
+
+    &--fw {
+        font-weight: bold;
     }
 }

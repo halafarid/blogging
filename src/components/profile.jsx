@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import Navigation from './navbar';
+import { Row, Col } from 'react-bootstrap';
 
 import InformationCard from './cards/informationCard';
 import * as AuthorService from '../services/authorService';
 import authorizationToken from './../services/tokenService';
+
+import Navigation from './navbar';
+import PostsCard from './cards/postsCars';
 
 class Profile extends Component {
     state = { 
@@ -37,13 +40,36 @@ class Profile extends Component {
 
                 <div className="profile">
                     <div className="container">
-                        <InformationCard 
-                            {...this.props}
-                            account = {this.state.account}
-                        />
+                        <Row>
+                            <Col md={9}>
+                                <InformationCard 
+                                    {...this.props}
+                                    account = {this.state.account}
+                                />
+
+                                <PostsCard 
+                                    {...this.props} 
+                                    account = {this.state.account}
+                                />
+
+                                <PostsCard 
+                                    {...this.props} 
+                                    account = {this.state.account}
+                                />
+
+                                <PostsCard 
+                                    {...this.props} 
+                                    account = {this.state.account}
+                                />
+                            </Col>
+
+                            <Col md={3}> 
+                                <img src={require("../images/advertising.jpg")} alt="Advertising" className="advertising"/>
+                            </Col>
+                        </Row>
                     </div>
                 </div>
-
+                
             </React.Fragment>
         );
     }

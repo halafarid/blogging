@@ -5,4 +5,6 @@ export default function authorizationToken(jwt) {
         axios.defaults.headers.common["Authorization"] = `${jwt}`;
     else 
         delete axios.defaults.headers.common["Authorization"];
+
+    return jwt;
 }

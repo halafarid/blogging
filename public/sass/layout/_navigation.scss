@@ -1,5 +1,4 @@
 .navbar {
-    // background-image: url('../../../src/images/bg.png');
     background-color: $primary !important;
 
     &__link {
@@ -9,7 +8,6 @@
 
         &:hover {
             background-color: $primary-alt;
-            // font-weight: bold;
             border-radius: 10px;
         }
     }
