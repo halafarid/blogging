@@ -28,9 +28,12 @@
     }
 
     &__icon {
-        @include abs-position(18px, 10px);
         font-size: 25px;
         color: $info;
+        
+        &-pos {
+            @include abs-position(18px, 10px);
+        }
     }
 
     &__logo {

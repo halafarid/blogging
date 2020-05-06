@@ -1,0 +1,12 @@
+.profile {
+    &__card {
+        width: 100%;
+        text-align: center;
+    }
+
+    &__list {
+        font-size: $font-lg;
+        min-width: 33% !important;
+        text-align: left;
+    }
+}

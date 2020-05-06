@@ -1,12 +1,12 @@
 .link {
-    text-decoration: none;
+    text-decoration: none !important;
     transition: all 0.3s ease-in-out;
 
     &--light {
-        color: $secondary;
+        color: $secondary !important;
 
         &:hover {
-            font-weight: bold;
+            font-weight: bold !important;
         }
     }
 }

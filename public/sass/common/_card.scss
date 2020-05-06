@@ -1,0 +1,24 @@
+.card {
+    border-radius: 20px;
+    margin-top: 50px;
+
+    &__top {
+        color: $primary;
+        font-weight: bold;
+    }
+    
+    &__title {
+        color: $secondary;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+    
+    &__header-img {
+        background-image: url('../../../src/images/bg.png');
+        border-radius: 20px 20px 0 0;
+    }
+    
+    &__home {
+        width: 25%;
+    }
+}

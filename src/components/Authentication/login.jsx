@@ -3,6 +3,7 @@ import Joi from 'joi-browser';
 import { toast } from 'react-toastify';
 
 import * as authService from '../../services/authService';
+import authorizationToken from '../../services/tokenService';
 import AuthForm from './authForm';
 
 class LogIn extends Component {
@@ -66,6 +67,11 @@ class LogIn extends Component {
         try {
             const { data } = await authService.Login(this.state.account);
             console.log(data);
+
+            localStorage.setItem('JWT', data.token);
+            authorizationToken(data.token);
+
+            this.props.history.replace('/profile');
 
         } catch (err) {
             if (err.response && err.response.status >= 404)

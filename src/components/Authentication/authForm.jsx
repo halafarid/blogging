@@ -22,14 +22,14 @@ const AuthForm = ({account, errors, handleChange, handleSubmit, match}) => {
                         {match.path === '/auth/login' &&
                             <div>
                                 <div className="form__group">
-                                    <div className="form__icon">
+                                    <div className="form__icon form__icon-pos">
                                         <FaEnvelope />
                                     </div>    
                                     <input type="text" className={errors.email ? 'form__control form__control--pad errorMsg-border' : 'form__control form__control--pad'} value={account.email} onChange={handleChange} onBlur={handleChange} name="email" id="email" placeholder="Email" autoComplete="off"/>
                                     <div className="errorMsg">{errors.email}</div>
                                 </div>
                                 <div className="form__group">
-                                    <div className="form__icon">
+                                    <div className="form__icon form__icon-pos">
                                         <FaUnlockAlt />
                                     </div> 
                                     <input type="password" className={errors.password ? 'form__control form__control--pad errorMsg-border' : 'form__control form__control--pad'} value={account.password} onChange={handleChange} onBlur={handleChange} name="password" id="password" placeholder="Password"/>
@@ -42,28 +42,28 @@ const AuthForm = ({account, errors, handleChange, handleSubmit, match}) => {
                         {match.path === '/auth/registration' &&
                             <div>
                                 <div className="form__group">
-                                    <div className="form__icon">
+                                    <div className="form__icon form__icon-pos">
                                         <FaUser />
                                     </div>    
                                     <input type="text" className={errors.fullName ? 'form__control form__control--pad errorMsg-border' : 'form__control form__control--pad'} value={account.fullName} onChange={handleChange} onBlur={handleChange} name="fullName" id="fullName" placeholder="Full Name" autoComplete="off"/>
                                     <div className="errorMsg">{errors.fullName}</div>
                                 </div>
                                 <div className="form__group">
-                                    <div className="form__icon">
+                                    <div className="form__icon form__icon-pos">
                                         <FaEnvelope />
                                     </div>    
                                     <input type="text" className={errors.email ? 'form__control form__control--pad errorMsg-border' : 'form__control form__control--pad'} value={account.email} onChange={handleChange} onBlur={handleChange} name="email" id="email" placeholder="Email" autoComplete="off"/>
                                     <div className="errorMsg">{errors.email}</div>
                                 </div>
                                 <div className="form__group">
-                                    <div className="form__icon">
+                                    <div className="form__icon form__icon-pos">
                                         <FaUnlockAlt />
                                     </div> 
                                     <input type="password" className={errors.password ? 'form__control form__control--pad errorMsg-border' : 'form__control form__control--pad'} value={account.password} onChange={handleChange} onBlur={handleChange} name="password" id="password" placeholder="Password"/>
                                     <div className="errorMsg">{errors.password}</div>
                                 </div>
                                 <div className="form__group">
-                                    <div className="form__icon">
+                                    <div className="form__icon form__icon-pos">
                                         <AiFillCalendar />
                                     </div>    
                                     <input type="number" min="10" max="60" className={errors.age ? 'form__control form__control--pad errorMsg-border' : 'form__control form__control--pad'} value={Number(account.age)} onChange={handleChange} name="age" id="age" placeholder="Age"/>
