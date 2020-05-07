@@ -16,32 +16,38 @@ import Following from './components/following';
 import Followers from './components/followers';
 
 class App extends Component {
-  state = {  }
+  state = { }
 
-  
+  // componentDidMount() {
+  //   localStorage.removeItem('JWT');
+  //   console.log("deleted");
+  // }
+
   render() { 
 
     return ( 
       <React.Fragment>
         <ToastContainer />
 
-        <Switch>
-          <Route path="/home" component={Home} />
-          
-          <Route path="/auth/login" component={LogIn}/>
-          <Route path="/auth/registration" component={Registration} />
+        <div className="layout">
+            <Switch>
+              <Route path="/auth/login" component={LogIn}/>
+              <Route path="/auth/registration" component={Registration} />
 
-          <Route path="/profile/:id" component={Profile} />
-          <Route path="/profile" component={Profile} />
+                  <Route path="/home" component={Home}/>
 
-          <Route path="/following" component={Following} />
-          <Route path="/followers" component={Followers} />
+                  <Route path="/profile/:id" component={Profile}/>
+                  <Route path="/profile" component={Profile}/>
 
-          <Route path="/page404" component={Page404} />
+                  <Route path="/following" component={Following} />
+                  <Route path="/followers" component={Followers} />
 
-          <Redirect from="/" to="/home" exact />
-          <Redirect to="/page404" />
-        </Switch>
+                  <Route path="/page404" component={Page404} />
+
+                  <Redirect from="/" to="/home" exact />
+                  <Redirect to="/page404" />
+              </Switch>
+            </div>
       </React.Fragment>
 
     );

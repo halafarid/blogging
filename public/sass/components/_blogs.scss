@@ -29,6 +29,14 @@
     &__icon {
         font-size: $font-xl;
         margin-right: 5px;
+
+        &-edit {
+            font-size: 25px;
+        }
+        
+        &-dropdown {
+            margin-left: 15px;
+        }
     }
 
     &__link {
@@ -44,5 +52,36 @@
                 text-decoration: underline !important;
             }
         }
+
+        &-pos {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 20px;
+        }
     }
+}
+
+#post {
+    &__dropdown, &__dropdown:hover, &__dropdown:focus {
+        background-color: transparent !important;
+        color: $info !important;
+        font-size: $font-xl;
+        padding: 0;
+        height: 0;
+
+        &::before {
+            content: '';
+            display: none;
+        }
+    }
+}
+
+.dropdown-item:focus {
+    background-color: #f8f9fa;
+    color: $info !important;
+}
+
+.card-body {
+    position: relative;
 }

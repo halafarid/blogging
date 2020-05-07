@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-import authorizationToken from './../services/tokenService';
+import * as AuthorService from '../services/authorService';
+import authorizationToken from '../services/tokenService';
 
 import Navigation from './navbar';
 import BlogsCards from './cards/blogsCards';
@@ -11,26 +12,28 @@ import CreateBlogCard from './cards/createBlogCard';
 class Home extends Component {
     state = { 
         accounts: [],
+        account: {},
         isTokenExist: Boolean
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         // Give all posts
+        const jwt = localStorage.getItem('JWT');
+        const isTokenExist = authorizationToken(jwt);
 
-        const token = localStorage.getItem('JWT');
-        const isTokenExist = authorizationToken(token);
+        if(isTokenExist) 
+            var { data: account } = await AuthorService.getProfile();
 
-        isTokenExist ? console.log('Exist') : console.log('Not exist');
-
-        this.setState({ isTokenExist });
+        this.setState({ isTokenExist, account });
     }
     
     render() { 
+        const { isTokenExist } = this.state;
         return ( 
             <React.Fragment>
                 <Navigation 
                     {...this.props}
-                    isTokenExist = {this.state.isTokenExist}
+                    isTokenExist = {isTokenExist}
                 />
 
                 <div className="container">
@@ -38,30 +41,40 @@ class Home extends Component {
                         <Col md={3}>
                             <img src={require("../images/advertising.jpg")} alt="Advertising" className="advertising"/>
 
-                            <InformationCard
-                                {...this.props}
-                                isTokenExist = {this.state.isTokenExist}
-                            />
+                            {isTokenExist &&
+                                <InformationCard
+                                    {...this.props}
+                                    isTokenExist = {isTokenExist}
+                                    account = {this.state.account}
+                                />
+                            }
                         </Col>
 
                         <Col md={9}>
-                            <CreateBlogCard />
-
-                            <hr className="horizontal" />
+                            {isTokenExist && 
+                                <React.Fragment>
+                                    <CreateBlogCard />
+    
+                                    <hr className="horizontal" />
+                                </React.Fragment>
+                            }
 
                             <BlogsCards
                                 { ...this.props }
                                 account = {this.state.accounts}
+                                isTokenExist = {isTokenExist}
                             />
 
                             <BlogsCards
                                 { ...this.props }
                                 account = {this.state.accounts}
+                                isTokenExist = {isTokenExist}
                             />
 
                             <BlogsCards
                                 { ...this.props }
                                 account = {this.state.accounts}
+                                isTokenExist = {isTokenExist}
                             />
                         </Col>
                     </Row>

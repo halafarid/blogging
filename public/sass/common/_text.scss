@@ -23,4 +23,8 @@
         text-transform: uppercase;
         letter-spacing: 1px;
     }
+
+    &--info {
+        color: $info;
+    }
 }

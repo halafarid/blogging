@@ -7,7 +7,7 @@ import AuthForm from './authForm';
 
 class Registration extends Component {
     state = { 
-        account: {fullName: '', email: '', password: '', age: 10},
+        account: {fullName: '', email: '', password: '', age: null, address: ''},
         errors: {},
     }
     
@@ -15,7 +15,8 @@ class Registration extends Component {
         fullName: Joi.string().required().label('Name'),
         email: Joi.string().email().required().label('Email'),
         password: Joi.string().required().min(6).label('Password'),
-        age: Joi.number().allow('').label('Age')
+        address: Joi.string().required().max(256).label('Address'),
+        age: Joi.number().label('Age')
     }
 
     render() { 
@@ -57,8 +58,8 @@ class Registration extends Component {
         }
         return errors;
     }
-
-
+    
+    
     handleSubmit = async e => {
         e.preventDefault();
         const account = {...this.state.account};

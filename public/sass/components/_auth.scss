@@ -1,8 +1,14 @@
 .auth {
     width: 30%;
     margin: 0 auto;
-    @include abs-position(20%, 50%);
+    @include abs-position(25%, 50%);
     transform: translate(-50%);
+
+    &--bg {
+        width: 100%;
+        min-height: 100vh;
+        background-image: url('../../../src/images/bg.png');
+    }
 
     &__text {
         margin: 10px 20px;
@@ -11,5 +17,10 @@
 
     &__submit {
         margin-top: 15px;
+    }
+
+    &-regist {
+        top: 11%;
+        margin-bottom: 30px;
     }
 }

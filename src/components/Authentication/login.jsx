@@ -71,10 +71,10 @@ class LogIn extends Component {
             localStorage.setItem('JWT', data.token);
             authorizationToken(data.token);
 
-            this.props.history.replace('/profile');
+            this.props.history.replace('/home');
 
         } catch (err) {
-            if (err.response && err.response.status >= 404)
+            if (err.response && err.response.status >= 400)
                 toast.error('Sorry, Email or Password is incorrect!.');
         }
     }
