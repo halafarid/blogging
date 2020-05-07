@@ -1,7 +1,12 @@
 .link {
     text-decoration: none !important;
     transition: all 0.3s ease-in-out;
-    color: #0073b1 !important;
+    color: $link !important;
+
+    &__icon {
+        font-size: $font-xl;
+        margin-right: 5px;
+    }
 
     &--secondary {
         color: $secondary !important;
@@ -19,7 +24,19 @@
         color: $primary-alt !important;
     }
 
+    &--info {
+        color: $info !important;
+
+        &:hover {
+            color: $link !important;
+        }
+    }
+
     &--fw {
         font-weight: bold;
+    }
+
+    &:hover {
+        cursor: pointer;
     }
 }

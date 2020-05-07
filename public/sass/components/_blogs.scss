@@ -35,5 +35,14 @@
         cursor: pointer;
         color: $primary;
         font-weight: bold;
+
+        &-title {
+            color: $info !important;
+
+            &:hover {
+                color: $link !important;
+                text-decoration: underline !important;
+            }
+        }
     }
 }

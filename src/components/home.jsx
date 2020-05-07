@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-import Navigation from './navbar';
-import InformationCard from './cards/informationCard';
-import PostsCard from './cards/postsCars';
 import authorizationToken from './../services/tokenService';
+
+import Navigation from './navbar';
+import BlogsCards from './cards/blogsCards';
+import InformationCard from './cards/informationCard';
+import CreateBlogCard from './cards/createBlogCard';
 
 class Home extends Component {
     state = { 
@@ -43,17 +45,21 @@ class Home extends Component {
                         </Col>
 
                         <Col md={9}>
-                            <PostsCard 
+                            <CreateBlogCard />
+
+                            <hr className="horizontal" />
+
+                            <BlogsCards
                                 { ...this.props }
                                 account = {this.state.accounts}
                             />
 
-                            <PostsCard 
+                            <BlogsCards
                                 { ...this.props }
                                 account = {this.state.accounts}
                             />
 
-                            <PostsCard 
+                            <BlogsCards
                                 { ...this.props }
                                 account = {this.state.accounts}
                             />

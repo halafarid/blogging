@@ -6,6 +6,10 @@
     &__title {
         color: $primary;
         font-weight: bold;
+
+        &-info {
+            color: $info;
+        }
     }
     
     &__subtitle {

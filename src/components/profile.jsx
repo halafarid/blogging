@@ -6,7 +6,7 @@ import * as AuthorService from '../services/authorService';
 import authorizationToken from './../services/tokenService';
 
 import Navigation from './navbar';
-import PostsCard from './cards/postsCars';
+import BlogsCards from './cards/blogsCards';
 
 class Profile extends Component {
     state = { 
@@ -47,17 +47,17 @@ class Profile extends Component {
                                     account = {this.state.account}
                                 />
 
-                                <PostsCard 
+                                <BlogsCards
                                     {...this.props} 
                                     account = {this.state.account}
                                 />
 
-                                <PostsCard 
+                                <BlogsCards
                                     {...this.props} 
                                     account = {this.state.account}
                                 />
 
-                                <PostsCard 
+                                <BlogsCards
                                     {...this.props} 
                                     account = {this.state.account}
                                 />

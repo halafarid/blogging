@@ -1,0 +1,70 @@
+// From inspect in HTML
+.modal {
+    &-header {
+        background-color: $primary;
+    }
+
+    &-title {
+        color: $white;
+    }
+
+    &-footer {
+        justify-content: space-between;
+    }
+
+    &__icon {
+        font-size: 25px;
+        margin-left: 20px;
+        cursor: pointer;
+        
+        &-connection {
+            color: $info !important;
+            padding: 0 5px 10px 10px;
+
+            &:last-child {
+                padding: 0 10px 10px;
+            }
+
+            &:hover {
+                background-color: $light;
+                color: #444 !important;
+                border-radius: 50%;
+            }
+        }
+
+        &-add {
+            color: $sucess !important;
+        }
+    }
+
+    &__tags {
+        color: $link !important;
+        font-size: $font-lg;
+        cursor: pointer;
+        margin-bottom: 10px;
+        word-wrap: break-word;
+    }
+}
+
+.close {
+    outline: 0 !important;
+    color: $white !important;
+
+    &:hover {
+        color: $white !important;
+    }
+}
+
+.form {
+    &-control {
+        outline: 0 !important;
+        box-shadow: none !important;
+        border: none;
+        border-bottom: 1px solid $info;
+    }
+}
+
+#modalBody {
+    border: none;
+    min-height: 150px;
+}

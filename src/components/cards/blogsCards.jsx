@@ -6,12 +6,10 @@ import { GoComment } from 'react-icons/go';
 import { RiShareForwardLine } from 'react-icons/ri';
 import { MdPlaylistAdd, MdPlaylistAddCheck } from 'react-icons/md';
 
-class PostsCard extends Component {
+class BlogsCards extends Component {
     state = { 
         follow: false
-
     }
-
 
     handleFollowing = () => {
         let follow = !this.state.follow;
@@ -73,4 +71,4 @@ class PostsCard extends Component {
     }
 }
  
-export default PostsCard;
+export default BlogsCards;
