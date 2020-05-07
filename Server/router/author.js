@@ -4,11 +4,12 @@ const router = express.Router();
 const CustomError = require('../helpers/customError');
 
 const authenticationMiddleware = require('../middlewares/authentication');
+const authorizationMiddleware = require('../middlewares/authorization');
 const validationMiddleware = require('../middlewares/validation');
 const { check } = require('express-validator');
 
 let validations = [
-    check('password').isLength({ min: 6}).withMessage('Password must be at least 6 characters!'),
+    check('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters!'),
     check('email').isEmail().withMessage('Ivalid email!')
 ];
 
@@ -17,27 +18,28 @@ router.get('/', async (req, res, next) => {
     res.json(authors);
 });
 
-router.patch('/:id', authenticationMiddleware, async (req, res, next) => {
+router.patch('/:id', authenticationMiddleware, authorizationMiddleware, async (req, res, next) => {
     const { id } = req.params;
-    const { fullName, email, password, age } = req.body;
+
+    const { fullName, email, password, age, address } = req.body;
     const author = await Author.findByIdAndUpdate(id,
-        { fullName, email, password, age },
+        { fullName, email, password, age, address },
         { new: true, omitUndefined: true, runValidators: true }
     );
     res.json(author);
 });
 
-router.delete('/:id', authenticationMiddleware, async (req, res, next) => {
+router.delete('/:id', authenticationMiddleware, authorizationMiddleware, async (req, res, next) => {
     const { id } = req.params;
     const author = await Author.findOneAndDelete(id);
     res.json(author);
 });
 
 router.post('/registeration', validationMiddleware(validations[0], validations[1]), async (req, res, next) => {
-    const { fullName, email, password, age } = req.body;
-    const author = new Author({ fullName, email, password, age });
+    const { fullName, email, password, age, address } = req.body;
+    const author = new Author({ fullName, email, password, age, address });
 
-    await author.compareEmail(email);    
+    await author.compareEmail(email);
     await author.save();
     res.json(author);
 });
@@ -62,7 +64,9 @@ router.get('/profile/:id', authenticationMiddleware, async (req, res, next) => {
 });
 
 router.get('/profile', authenticationMiddleware, async (req, res, next) => {
-    res.send('<h1>This is my profile</h1>');
+    const token = req.headers.authorization;
+    const author = await Author.getCurrentAuthor(token);
+    res.send(author);
 });
 
 module.exports = router;

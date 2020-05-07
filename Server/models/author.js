@@ -27,12 +27,17 @@ const authorSchema = new mongoose.Schema({
     age: {
         type: Number,
         required: false
+    }, 
+    address: {
+        type: String,
+        required: true,
+        maxlength: 256
     }
 }, {
     timestamps: true,
     toJSON: {
         transform: doc => {
-            return _.pick(doc, ['_id', 'fullName', 'email', 'age'])
+            return _.pick(doc, ['_id', 'fullName', 'email', 'age', 'address']);
         }
     }
 });
@@ -42,7 +47,7 @@ sign({authorId: ''}, jwtSecret)
     .catch( err => next() );
 
 verify('token', jwtSecret)
-    .then( token => console.log(token) )
+    .then( req => req.author = author)
     .catch( err => next() );
 
 

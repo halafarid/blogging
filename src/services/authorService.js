@@ -16,3 +16,7 @@ export function update(id) {
 export function remove(id) {
     return axios.delete(`${apiUrl}/authors/${id}`);
 }
+
+export function getProfile() {
+    return axios.get(`${apiUrl}/authors/profile`);
+}
