@@ -20,3 +20,7 @@ export function remove(id) {
 export function getProfile() {
     return axios.get(`${apiUrl}/authors/profile`);
 }
+
+export function handleFollows(id) {
+    return axios.post(`${apiUrl}/authors/${id}/follows`);
+}

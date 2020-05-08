@@ -8,6 +8,7 @@ import { MdPlaylistAdd, MdPlaylistAddCheck } from 'react-icons/md';
 import { BsThreeDots } from 'react-icons/bs';
 import { GrEdit } from 'react-icons/gr';
 
+import * as authorService from '../../services/authorService';
 import authorizationToken from '../../services/tokenService';
 
 class BlogsCards extends Component {
@@ -16,15 +17,16 @@ class BlogsCards extends Component {
         isTokenExist: Boolean
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const jwt = localStorage.getItem('JWT');
         const isTokenExist = authorizationToken(jwt);
-
+        
         this.setState({ isTokenExist });
     }
 
-    handleFollowing = () => {
+    handleFollowing = async id => {
         let follow = !this.state.follow;
+        await authorService.handleFollows(id);
         this.setState({ follow });
     }
 
@@ -41,7 +43,7 @@ class BlogsCards extends Component {
                                 <Card.Subtitle className="card__subtitle">Blog title</Card.Subtitle>
                             </div>
                             { isTokenExist && this.props.match.path === '/home' &&
-                                <div className={ follow ? 'post__link text-success' : 'post__link'} onClick={this.handleFollowing}>
+                                <div className={ follow ? 'post__link text-success' : 'post__link'} onClick={() => this.handleFollowing('id')}>   
                                     <span className="post__icon">
                                         {follow? <MdPlaylistAddCheck /> : < MdPlaylistAdd />}
                                     </span>

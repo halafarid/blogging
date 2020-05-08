@@ -105,7 +105,7 @@ class InformationCard extends Component {
                                                     <div className="mr-3 form__icon">
                                                         <RiUserFollowLine />
                                                     </div>
-                                                    <Media.Body className="list__body"> 10 Following</Media.Body>
+                                                    <Media.Body className="list__body"> {account.following?.length} Following</Media.Body>
             
                                                 </React.Fragment>
                                         </Media>
@@ -118,7 +118,7 @@ class InformationCard extends Component {
                                             <div className="mr-3 form__icon">
                                                 <GiShadowFollower />
                                             </div>
-                                            <Media.Body className="list__body"> 20 Followers</Media.Body>
+                                            <Media.Body className="list__body"> {account.followers?.length} {account.followers?.length === 1 ? 'Follower' : 'Followers'}</Media.Body>
                                         </Media>
                                     </Link>
                                 }
@@ -128,7 +128,7 @@ class InformationCard extends Component {
                                         <div className="mr-3 form__icon">
                                             <GiShadowFollower />
                                         </div>
-                                        <Media.Body className="list__body"> 20 Followers</Media.Body>
+                                        <Media.Body className="list__body"> {account.followers?.length} {account.followers?.length === 1 ? 'Follower' : 'Followers'}</Media.Body>
                                     </Media>
                                 }
                         </ul>
