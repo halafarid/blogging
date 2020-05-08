@@ -32,14 +32,20 @@ const authorSchema = new mongoose.Schema({
         type: String,
         required: true,
         maxlength: 256
-    }
+    },
+    following: [{
+        type: mongoose.Schema.Types.ObjectId
+    }],
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId
+    }]
 }, {
     timestamps: true,
     toJSON: {
         transform: doc => {
-            return _.pick(doc, ['_id', 'fullName', 'email', 'age', 'address']);
+            return _.pick(doc, ['_id', 'fullName', 'email', 'age', 'address', 'following', 'followers']);
         }
-    }
+    },
 });
 
 sign({authorId: ''}, jwtSecret)

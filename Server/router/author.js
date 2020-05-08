@@ -69,4 +69,21 @@ router.get('/profile', authenticationMiddleware, async (req, res, next) => {
     res.send(author);
 });
 
+router.post('/:id/follows', authenticationMiddleware, async (req, res, next) => {
+    const { id } = req.params;
+    const author = await Author.findById(id);
+    const token = req.headers.authorization;
+    const currentAuthor = await Author.getCurrentAuthor(token);
+
+    if (!currentAuthor["following"].some(authID => authID.toString() === id)) {
+        await Author.updateOne( {_id: currentAuthor._id},  { $push: { following: author } });
+        await Author.updateOne( {_id: author._id},  { $push: { followers: currentAuthor } });
+    } else {
+        await Author.updateOne( {_id: currentAuthor._id},  { $pull: { following: id } });
+        await Author.updateOne( {_id: author._id},  { $pull: { followers: currentAuthor._id } });
+    }
+
+    res.send(currentAuthor);
+});
+
 module.exports = router;
