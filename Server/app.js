@@ -11,10 +11,12 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(cors()); // Enable to call the server in FrontEnd
 
-
-// Enable to use author schema
+// Enable to use schemas
 const authorRouter = require('./router/author');
+const blogRouter = require('./router/blog');
+
 app.use('/authors', authorRouter);
+app.use('/blogs', blogRouter);
 
 // For Testing
 app.get('/', (req, res) => {

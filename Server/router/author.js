@@ -14,7 +14,7 @@ let validations = [
 ];
 
 router.get('/', async (req, res, next) => {
-    const authors = await Author.find();
+    const authors = await Author.find().populate('blogs');
     res.json(authors);
 });
 
@@ -36,8 +36,7 @@ router.delete('/:id', authenticationMiddleware, authorizationMiddleware, async (
 });
 
 router.post('/registeration', validationMiddleware(validations[0], validations[1]), async (req, res, next) => {
-    const { fullName, email, password, age, address } = req.body;
-    const author = new Author({ fullName, email, password, age, address });
+    const author = new Author(req.body);
 
     await author.compareEmail(email);
     await author.save();
@@ -59,31 +58,33 @@ router.post('/login', async (req, res, next) => {
 
 router.get('/profile/:id', authenticationMiddleware, async (req, res, next) => {
     const { id } = req.params;
-    const author = await Author.findById(id);
+    const author = await Author.findById(id).populate('blogs');
     res.send(author);
 });
 
 router.get('/profile', authenticationMiddleware, async (req, res, next) => {
-    const token = req.headers.authorization;
-    const author = await Author.getCurrentAuthor(token);
-    res.send(author);
+    const currentWithBlogs = await Author.findById(req.author._id).populate('blogs');
+    res.send(currentWithBlogs);
 });
 
 router.post('/:id/follows', authenticationMiddleware, async (req, res, next) => {
     const { id } = req.params;
-    const author = await Author.findById(id);
-    const token = req.headers.authorization;
-    const currentAuthor = await Author.getCurrentAuthor(token);
 
-    if (!currentAuthor["following"].some(authID => authID.toString() === id)) {
-        await Author.updateOne( {_id: currentAuthor._id},  { $push: { following: author } });
-        await Author.updateOne( {_id: author._id},  { $push: { followers: currentAuthor } });
-    } else {
-        await Author.updateOne( {_id: currentAuthor._id},  { $pull: { following: id } });
-        await Author.updateOne( {_id: author._id},  { $pull: { followers: currentAuthor._id } });
-    }
+    if (req.author._id.toString() !== id && !req.author.following.some(authID => authID.toString() === id))
+        await Author.updateOne( {_id: req.author._id},  { $push: { following: id } });
+    else
+        await Author.updateOne( {_id: req.author._id},  { $pull: { following: id } });
 
-    res.send(currentAuthor);
+    res.send(req.author);
 });
 
+router.get('/following', authenticationMiddleware, async (req, res, next) => {
+    const myFollowing = await Author.findById(req.author._id).populate('following');
+    res.send(myFollowing);
+});
+
+router.get('/followers', authenticationMiddleware, async (req, res, next) => {
+    const myFollowers = await Author.find({following: req.author._id});
+    res.send(myFollowers);
+});
 module.exports = router;

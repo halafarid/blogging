@@ -34,18 +34,22 @@ const authorSchema = new mongoose.Schema({
         maxlength: 256
     },
     following: [{
-        type: mongoose.Schema.Types.ObjectId
-    }],
-    followers: [{
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Author'
     }]
 }, {
     timestamps: true,
     toJSON: {
         transform: doc => {
-            return _.pick(doc, ['_id', 'fullName', 'email', 'age', 'address', 'following', 'followers']);
+            return _.pick(doc, ['_id', 'fullName', 'email', 'age', 'address', 'following', 'blogs']);
         }
     },
+});
+
+authorSchema.virtual('blogs', {
+    ref: 'Blog',
+    localField: '_id',
+    foreignField: 'authorId'
 });
 
 sign({authorId: ''}, jwtSecret)
@@ -77,7 +81,6 @@ authorSchema.methods.generateToken = function() {
 };
 
 authorSchema.statics.getCurrentAuthor = async function(token) {
-    const Author = this;
     const payload = jwt.verify(token, jwtSecret);
     const currentAuthor = await Author.findById(payload.authorId);
 
