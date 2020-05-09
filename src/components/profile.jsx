@@ -15,10 +15,10 @@ class Profile extends Component {
             email: '',
             address: '',
             age: null,
-            blogs: 0,
+            blogs: [],
             following: 0,
-            followers: 0
         },
+        followers: 0,
         isTokenExist: Boolean
     }
     
@@ -42,8 +42,10 @@ class Profile extends Component {
                 this.setState({ account });
             } 
             // My Profile
-            else 
-                this.setState({ account: myProfile });
+            else {
+                var { data: followers } = await AuthorService.getFollowers();
+                this.setState({ account: myProfile, followers });
+            }
                 
         } else {
             this.props.history.push('/home');
@@ -53,7 +55,7 @@ class Profile extends Component {
     }
     
     render() { 
-        const { isTokenExist } = this.state;
+        const { isTokenExist, account } = this.state;
 
         return ( 
             <React.Fragment>
@@ -69,22 +71,18 @@ class Profile extends Component {
                                 <InformationCard 
                                     {...this.props}
                                     account = {this.state.account}
+                                    followers = {this.state.followers}
                                 />
 
-                                <BlogsCards
-                                    {...this.props} 
-                                    account = {this.state.account}
-                                />
+                                {account.blogs.map( blog => (
+                                    <BlogsCards
+                                        {...this.props} 
+                                        key = {blog._id}
+                                        fullName = {this.state.account.fullName}
+                                        blog = {blog}
+                                    />
+                                ))}
 
-                                <BlogsCards
-                                    {...this.props} 
-                                    account = {this.state.account}
-                                />
-
-                                <BlogsCards
-                                    {...this.props} 
-                                    account = {this.state.account}
-                                />
                             </Col>
 
                             <Col md={3}> 

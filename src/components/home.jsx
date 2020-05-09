@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 import * as AuthorService from '../services/authorService';
+import * as BlogService from '../services/blogService';
 import authorizationToken from '../services/tokenService';
 
 import Navigation from './navbar';
@@ -11,24 +12,27 @@ import CreateBlogCard from './cards/createBlogCard';
 
 class Home extends Component {
     state = { 
-        accounts: [],
+        blogs: [],
         account: {},
         isTokenExist: Boolean
     }
 
     async componentDidMount() {
         // Give all posts
+        var { data: blogs } = await BlogService.getAll();
+
         const jwt = localStorage.getItem('JWT');
         const isTokenExist = authorizationToken(jwt);
 
         if(isTokenExist) 
             var { data: account } = await AuthorService.getProfile();
-
-        this.setState({ isTokenExist, account });
-    }
-    
+        
+            this.setState({ isTokenExist, account, blogs });
+        }
+        
     render() { 
-        const { isTokenExist } = this.state;
+        const { isTokenExist, blogs, account } = this.state;
+
         return ( 
             <React.Fragment>
                 <Navigation 
@@ -45,7 +49,7 @@ class Home extends Component {
                                 <InformationCard
                                     {...this.props}
                                     isTokenExist = {isTokenExist}
-                                    account = {this.state.account}
+                                    account = {account}
                                 />
                             }
                         </Col>
@@ -53,29 +57,25 @@ class Home extends Component {
                         <Col md={9}>
                             {isTokenExist && 
                                 <React.Fragment>
-                                    <CreateBlogCard />
+                                    <CreateBlogCard 
+                                        currentId = {account._id}
+                                    />
     
                                     <hr className="horizontal" />
                                 </React.Fragment>
                             }
 
-                            <BlogsCards
-                                { ...this.props }
-                                account = {this.state.accounts}
-                                isTokenExist = {isTokenExist}
-                            />
+                            {blogs.map(blog => (
+                                <BlogsCards
+                                    { ...this.props }
+                                    key = {blog._id}
+                                    isTokenExist = {isTokenExist}
+                                    blog = {blog}
+                                    currentId = {account?._id}
+                                    currentFollowing = {account?.following}
+                                />
+                            ))}
 
-                            <BlogsCards
-                                { ...this.props }
-                                account = {this.state.accounts}
-                                isTokenExist = {isTokenExist}
-                            />
-
-                            <BlogsCards
-                                { ...this.props }
-                                account = {this.state.accounts}
-                                isTokenExist = {isTokenExist}
-                            />
                         </Col>
                     </Row>
                 </div>

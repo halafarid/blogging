@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import { Modal, Button, Form, Row, Col} from 'react-bootstrap';
+import { Modal, Button, Form, Row, Col, Badge} from 'react-bootstrap';
 import { FiCamera } from 'react-icons/fi';
-import { AiOutlineVideoCamera } from 'react-icons/ai';
+import { AiOutlineVideoCamera, AiOutlineClose } from 'react-icons/ai';
 import { IoMdPaperPlane } from 'react-icons/io';
 import { BsPlusCircle } from 'react-icons/bs';
 
@@ -98,7 +98,12 @@ class BlogModal extends Component {
                                 </Col>
                                 <Col sm="2" className="modal__tags">
                                     <ol>
-                                        {blog.tags.map( (tag, i) => <li key={i} data-id={i} onClick={this.handleDeleteTag}>{tag}</li>)}
+                                        {blog.tags.map( (tag, i) => (
+                                            <Badge key={i} pill variant="secondary" className="post__tag" data-id={i} onClick={this.handleDeleteTag}>
+                                                {tag}
+                                                <AiOutlineClose />
+                                            </Badge>
+                                        ))}
                                     </ol>
                                 </Col>
                             </Form.Group>

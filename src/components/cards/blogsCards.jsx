@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Dropdown, DropdownButton, ButtonGroup } from 'react-bootstrap';
+import { Card, Dropdown, DropdownButton, ButtonGroup, Badge } from 'react-bootstrap';
 
 import { AiOutlineLike } from 'react-icons/ai';
 import { GoComment } from 'react-icons/go';
@@ -13,7 +13,7 @@ import authorizationToken from '../../services/tokenService';
 
 class BlogsCards extends Component {
     state = { 
-        follow: false,
+        followed: Boolean,
         isTokenExist: Boolean
     }
 
@@ -21,17 +21,24 @@ class BlogsCards extends Component {
         const jwt = localStorage.getItem('JWT');
         const isTokenExist = authorizationToken(jwt);
         
-        this.setState({ isTokenExist });
+        const followed = this.props.currentFollowing?.includes(this.props.blog.authorId._id);
+        
+        this.setState({ isTokenExist, followed });
     }
 
     handleFollowing = async id => {
-        let follow = !this.state.follow;
+        let followed = !this.state.followed;
         await authorService.handleFollows(id);
-        this.setState({ follow });
+
+        this.setState({ followed });
     }
 
     render() { 
-        const { follow, isTokenExist } = this.state;
+        const { isTokenExist, followed } = this.state;
+        const { fullName, blog, currentId } = this.props;
+
+        const homePath = this.props.match.path === '/home'; 
+
         return ( 
             <React.Fragment>
                 <Card className="card post__card">
@@ -39,18 +46,23 @@ class BlogsCards extends Component {
                     <Card.Body>
                         <div className="post__heading">
                             <div>
-                                <Card.Title className="card__title">Author name</Card.Title>
-                                <Card.Subtitle className="card__subtitle">Blog title</Card.Subtitle>
+                                {homePath? 
+                                    <Card.Title className="card__title">{blog.authorId.fullName}</Card.Title>
+                                    :
+                                    <Card.Title className="card__title">{fullName}</Card.Title>
+                                }
+                                <Card.Subtitle className="card__subtitle">{blog.title}</Card.Subtitle>
+                                <span className="post__created">{blog.createdAt.split('T')[0]}</span>
                             </div>
-                            { isTokenExist && this.props.match.path === '/home' &&
-                                <div className={ follow ? 'post__link text-success' : 'post__link'} onClick={() => this.handleFollowing('id')}>   
+                            { isTokenExist && homePath && (blog.authorId._id !== currentId) &&
+                                <div className={ followed ? 'post__link text-success' : 'post__link'} onClick={() => this.handleFollowing(blog.authorId._id)}>   
                                     <span className="post__icon">
-                                        {follow? <MdPlaylistAddCheck /> : < MdPlaylistAdd />}
+                                        {followed? <MdPlaylistAddCheck /> : < MdPlaylistAdd />}
                                     </span>
-                                    <span>{follow ? 'Following' : 'Follow'}</span>
+                                    <span>{followed ? 'Following' : 'Follow'}</span>
                                 </div>
                             }
-                            { isTokenExist && this.props.match.path === '/profile' &&
+                            { ( (isTokenExist && this.props.match.path !== '/profile/:id') && (blog.authorId._id === currentId) ) &&
                                 <DropdownButton
                                     as={ButtonGroup}
                                     key="left"
@@ -70,9 +82,15 @@ class BlogsCards extends Component {
                                 </DropdownButton>
                             }
                         </div>
-                        <Card.Text>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi officia perspiciatis fugit accusantium fuga doloremque odit. Rem vel neque placeat quibusdam dolorem omnis eveniet officia nisi veniam culpa. Magnam impedit ut sapiente. Debitis, voluptatum incidunt? Aperiam, nobis ipsa quas saepe temporibus quo quisquam recusandae deleniti cumque beatae commodi doloremque molestiae, est, nostrum dolor corrupti? Saepe rerum expedita inventore eum a?
-                        </Card.Text>
+                        <Card.Text>{blog.body}</Card.Text>
+
+                        <ul>
+                            {blog.tags.map( (tag, i) => (
+                                <Badge key={i} pill variant="secondary" className="post__tag">
+                                    {tag}
+                                </Badge>
+                            ))}
+                        </ul>
                     </Card.Body>
     
                     {isTokenExist &&

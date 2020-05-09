@@ -24,7 +24,7 @@ class InformationCard extends Component {
     
     render() { 
         const { follow } = this.state;
-        const { account, match } = this.props;
+        const { account, match, followers } = this.props;
         
         const profilePath = match.path === '/profile';
         const profileUser = match.path === '/profile/:id';
@@ -95,10 +95,10 @@ class InformationCard extends Component {
                                 <div className="mr-3 form__icon">
                                     <FaBlog />
                                 </div>
-                                <Media.Body className="list__body"> 30 Blogs</Media.Body>
+                                <Media.Body className="list__body"> {account.blogs?.length} Blogs</Media.Body>
                             </Media>
     
-                                {!profileUser && 
+                                {!profileUser && profilePath &&
                                     <Link to="/following" className="link link--fw" style={{ display: 'contents'}}>
                                         <Media as="li" className={`list__item list__item--mb ${profilePath ? 'profile__list' : ''}`}>
                                                 <React.Fragment>
@@ -111,25 +111,24 @@ class InformationCard extends Component {
                                         </Media>
                                     </Link>
                                 }
-    
-                                {!profileUser &&
+                                {profileUser && !profilePath &&
+                                    <Media as="li" className={`list__item list__item--mb ${profilePath ? 'profile__list' : profileUser? 'profile__list profile-another': ''}`}>
+                                        <div className="mr-3 form__icon">
+                                            <RiUserFollowLine />
+                                        </div>
+                                        <Media.Body className="list__body"> {account.following?.length} Following</Media.Body>
+                                    </Media>
+                                }
+
+                                {!profileUser && profilePath &&
                                     <Link to="/followers" className="link link--fw">
                                         <Media as="li" className={`list__item list__item--mb ${profilePath ? 'profile__list' : ''}`}>
                                             <div className="mr-3 form__icon">
                                                 <GiShadowFollower />
                                             </div>
-                                            <Media.Body className="list__body"> {account.followers?.length} {account.followers?.length === 1 ? 'Follower' : 'Followers'}</Media.Body>
+                                            <Media.Body className="list__body"> {followers?.length} {followers?.length === 1 ? 'Follower' : 'Followers'}</Media.Body>
                                         </Media>
                                     </Link>
-                                }
-
-                                {profileUser &&
-                                    <Media as="li" className={`list__item list__item--mb ${profilePath ? 'profile__list' : profileUser? 'profile__list profile-another': ''}`}>
-                                        <div className="mr-3 form__icon">
-                                            <GiShadowFollower />
-                                        </div>
-                                        <Media.Body className="list__body"> {account.followers?.length} {account.followers?.length === 1 ? 'Follower' : 'Followers'}</Media.Body>
-                                    </Media>
                                 }
                         </ul>
                     </Card.Body>

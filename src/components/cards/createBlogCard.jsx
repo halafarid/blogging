@@ -3,6 +3,8 @@ import { Card } from 'react-bootstrap';
 import { TiEdit } from 'react-icons/ti';
 import BlogModal from './BlogModal';
 
+import { post } from '../../services/blogService';
+
 class CreateBlogCard extends Component {
     state = { 
         isShow: false
@@ -13,12 +15,15 @@ class CreateBlogCard extends Component {
         this.setState({ isShow });
     }
 
-     createBlog = blog => {
-         const isShow = false;
-         this.setState({ isShow });
-         console.log("valid");
-        console.log(blog);
-         // call backend
+     createBlog = async blog => {
+        const isShow = false;
+        blog.authorId = this.props.currentId;
+        await post(blog);
+        blog.title = '';
+        blog.body = '';
+        blog.tag = '';
+        blog.tags = [];
+        this.setState({ isShow });
     }
 
     render() { 
