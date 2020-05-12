@@ -4,7 +4,9 @@ const _ = require('lodash');
 const BlogSchema = new mongoose.Schema({
     authorId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Author'
+        ref: 'Author',
+        required: true,
+        index: true
     },
     title: {
         type: String,
@@ -27,6 +29,7 @@ const BlogSchema = new mongoose.Schema({
     }
 });
 
+BlogSchema.index({ title: 'text', tags: 'text' });
 
 const Blog = mongoose.model('Blog', BlogSchema);
 

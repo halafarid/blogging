@@ -88,6 +88,8 @@ authorSchema.statics.getCurrentAuthor = async function(token) {
     return currentAuthor;
 }
 
+authorSchema.index({ fullName: 'text' })
+
 const Author = mongoose.model('Author', authorSchema);
 
 module.exports = Author;

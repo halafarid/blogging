@@ -36,7 +36,8 @@ router.delete('/:id', authenticationMiddleware, authorizationMiddleware, async (
 });
 
 router.post('/registeration', validationMiddleware(validations[0], validations[1]), async (req, res, next) => {
-    const author = new Author(req.body);
+    const { fullName, email, password, age, address } = req.body;
+    const author = new Author({ fullName, email, password, age, address });
 
     await author.compareEmail(email);
     await author.save();
