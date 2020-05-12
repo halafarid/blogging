@@ -7,6 +7,7 @@ import * as AuthorService from '../services/authorService';
 import Navigation from './navbar';
 import BlogsCards from './cards/blogsCards';
 import authorizationToken from '../services/tokenService';
+import BlogModal from './cards/BlogModal';
 
 class Profile extends Component {
     state = { 
@@ -19,7 +20,8 @@ class Profile extends Component {
             following: 0,
         },
         followers: 0,
-        isTokenExist: Boolean
+        isTokenExist: Boolean,
+        followed: Boolean
     }
     
     async componentDidMount() {
@@ -39,7 +41,8 @@ class Profile extends Component {
             // User Profile
             else if (this.props.match.path === '/profile/:id') {
                 const { data: account } = await AuthorService.getById(id);
-                this.setState({ account });
+                const followed = myProfile.following.includes(account._id);
+                this.setState({ account, followed });
             } 
             // My Profile
             else {
@@ -53,9 +56,20 @@ class Profile extends Component {
 
        this.setState({ isTokenExist });
     }
+
+    handleFollowing = async () => {
+        let followed = !this.state.followed;
+        await AuthorService.handleFollows(this.props.match.params.id);
+        this.setState({ followed });
+    }
+
+    handleEditUser = () => {
+
+    }
     
     render() { 
         const { isTokenExist, account } = this.state;
+        const {blog, isShow, isValid, handleModal, handleChange, handleAddTag, handleDeleteTag, handleBlog, handleDeleteBlog} = this.props;
 
         return ( 
             <React.Fragment>
@@ -71,17 +85,41 @@ class Profile extends Component {
                                 <InformationCard 
                                     {...this.props}
                                     account = {this.state.account}
+                                    followed = {this.state.followed}
                                     followers = {this.state.followers}
+
+                                    handleEditUser = {this.handleEditUser}
+                                    handleFollowing = {this.handleFollowing}
                                 />
 
-                                {account.blogs.map( blog => (
-                                    <BlogsCards
-                                        {...this.props} 
-                                        key = {blog._id}
-                                        fullName = {this.state.account.fullName}
-                                        blog = {blog}
-                                    />
-                                ))}
+                                {account.blogs?.length > 0 ?
+                                    account.blogs.map( blog => (
+                                        <BlogsCards
+                                            {...this.props} 
+                                            blog = {blog}
+                                            key = {blog._id}
+                                            isTokenExist = {isTokenExist}
+                                            fullName = {account.fullName}
+                                            handleModal = {handleModal}
+                                            handleBlog = {handleBlog}
+                                            handleDeleteBlog = {handleDeleteBlog}
+                                        />
+                                    ))
+                                    :
+                                    <h2 className="profile__noblog"> No blogs right now</h2>
+                                }
+
+                                <BlogModal 
+                                    {...this.props}
+                                    blog = {blog}
+                                    isShow = {isShow}
+                                    isValid = {isValid}
+                                    handleBlog = {handleBlog}
+                                    handleModal = {handleModal}
+                                    handleChange = {handleChange}
+                                    handleAddTag = {handleAddTag}
+                                    handleDeleteTag = {handleDeleteTag}
+                                />
 
                             </Col>
 

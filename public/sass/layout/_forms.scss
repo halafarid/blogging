@@ -14,12 +14,23 @@
         padding: 10px 20px;
         margin-top: 10px;
         width: 100%;
-        border: $border-info;
+        border: $border-info !important;
         border-radius: 10px;
 
         // with icon
         &--pad {
             padding: 15px 0 15px 50px;
+        }
+
+        &--search {
+            padding: 0 15px;
+            height: 40px;
+        }
+
+        &--type {
+            width: 80%;
+            display: inline-block;
+            margin-right: 15px;
         }
 
         &:focus {
@@ -53,5 +64,9 @@
             font-size: 30px;
             color: $white;
         }
+    }
+
+    &__search {
+        margin-bottom: 20px;
     }
 }

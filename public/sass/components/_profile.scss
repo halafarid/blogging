@@ -9,6 +9,11 @@
         text-align: left;
     }
 
+    &__noblog {
+        text-align: center;
+        color: $secondary;
+    }
+
     &-another {
         min-width: 45% !important;
     }

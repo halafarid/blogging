@@ -18,6 +18,11 @@
             background-color: $primary-alt;
         }
     }
+
+    &__search {
+        height: 40px;
+        padding: 0 30px;
+    }
     
     &:hover {
         cursor: pointer;

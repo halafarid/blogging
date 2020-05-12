@@ -7,3 +7,12 @@
     border-color: #aaa;
     margin-bottom: 30px;
 }
+
+.search {
+    margin: 0 auto;
+    text-align: center;
+    
+    &__photo {
+        width: 60%;
+    }
+}

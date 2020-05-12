@@ -71,7 +71,7 @@ class LogIn extends Component {
             localStorage.setItem('JWT', data.token);
             authorizationToken(data.token);
 
-            this.props.history.replace('/home');
+            this.props.history.replace('/profile');
 
         } catch (err) {
             if (err.response && err.response.status >= 400)
