@@ -41,7 +41,7 @@ const authorSchema = new mongoose.Schema({
     timestamps: true,
     toJSON: {
         transform: doc => {
-            return _.pick(doc, ['_id', 'fullName', 'email', 'age', 'address', 'following', 'blogs']);
+            return _.pick(doc, ['_id', 'fullName', 'email', 'age', 'address', 'following']);
         }
     },
 });
