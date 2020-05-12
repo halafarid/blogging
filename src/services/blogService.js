@@ -1,8 +1,8 @@
 import { apiUrl } from './config.json';
 import axios from 'axios';
 
-export function getAll() {
-    return axios.get(`${apiUrl}/blogs`);
+export function getAll(pageNo, size) {
+    return axios.get(`${apiUrl}/blogs?pageNo=${pageNo}&size=${size}`);
 };
 
 export function post(blog) {
@@ -17,8 +17,8 @@ export function remove(id) {
     return axios.delete(`${apiUrl}/blogs/${id}`, id);
 }
 
-export function getAuthorBlogs(id) {
-    return axios.get(`${apiUrl}/blogs/${id}`);
+export function getAuthorBlogs(id, pageNo, size) {
+    return axios.get(`${apiUrl}/blogs/${id}?pageNo=${pageNo}&size=${size}`);
 }
 
 export function getBlogsOnSearch(type, data) {

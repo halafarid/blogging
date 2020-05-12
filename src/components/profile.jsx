@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 
 import InformationCard from './cards/informationCard';
 import * as AuthorService from '../services/authorService';
+import * as BlogService from '../services/blogService';
 
 import Navigation from './navbar';
 import BlogsCards from './cards/blogsCards';
@@ -21,11 +22,17 @@ class Profile extends Component {
         },
         followers: 0,
         isTokenExist: Boolean,
-        followed: Boolean
+        followed: Boolean,
+        
+        pageNo: 1,
+        size: 5,
+        pageSize: 5
     }
     
     async componentDidMount() {
         const id = this.props.match.params.id;
+        const pageNo = 1;
+        const size = 5;
 
         const jwt = localStorage.getItem('JWT');
         const isTokenExist = authorizationToken(jwt);
@@ -41,20 +48,28 @@ class Profile extends Component {
             // User Profile
             else if (this.props.match.path === '/profile/:id') {
                 const { data: account } = await AuthorService.getById(id);
+                const {data: blogs } = await BlogService.getAuthorBlogs(id, pageNo, size);
                 const followed = myProfile.following.includes(account._id);
-                this.setState({ account, followed });
+                this.setState({ account, followed, blogs });
             } 
             // My Profile
             else {
+                const {data: blogs } = await BlogService.getAuthorBlogs(myProfile._id, pageNo, size);
                 var { data: followers } = await AuthorService.getFollowers();
-                this.setState({ account: myProfile, followers });
+                this.setState({ account: myProfile, followers, blogs });
             }
                 
+        window.addEventListener('scroll', this.handleScroll, true);
+
         } else {
             this.props.history.push('/home');
         }
 
-       this.setState({ isTokenExist });
+       this.setState({ isTokenExist, pageNo, size });
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
     }
 
     handleFollowing = async () => {
@@ -63,13 +78,22 @@ class Profile extends Component {
         this.setState({ followed });
     }
 
+    handleScroll = async () => {
+        let { account, pageNo, size, pageSize } = this.state;
+        if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight ) {
+          size += pageSize;
+          const {data: blogs } = await BlogService.getAuthorBlogs(account._id, pageNo, size);
+          this.setState({ size, blogs });
+        }
+    };
+
     handleEditUser = () => {
 
     }
     
     render() { 
-        const { isTokenExist, account } = this.state;
-        const {blog, isShow, isValid, handleModal, handleChange, handleAddTag, handleDeleteTag, handleBlog, handleDeleteBlog} = this.props;
+        const { isTokenExist, account, blogs } = this.state;
+        const {loading, blog, isShow, isValid, handleModal, handleChange, handleAddTag, handleDeleteTag, handleBlog, handleDeleteBlog} = this.props;
 
         return ( 
             <React.Fragment>
@@ -92,8 +116,8 @@ class Profile extends Component {
                                     handleFollowing = {this.handleFollowing}
                                 />
 
-                                {account.blogs?.length > 0 ?
-                                    account.blogs.map( blog => (
+                                {blogs?.length > 0 ?
+                                    blogs.map( blog => (
                                         <BlogsCards
                                             {...this.props} 
                                             blog = {blog}
@@ -127,9 +151,19 @@ class Profile extends Component {
                                 <img src={require("../images/advertising.jpg")} alt="Advertising" className="advertising"/>
                             </Col>
                         </Row>
+                       
+                        {loading &&
+                            <div className="bubblingG bubblingG__profile">
+                                <span id="bubblingG_1">
+                                </span>
+                                <span id="bubblingG_2">
+                                </span>
+                                <span id="bubblingG_3">
+                                </span>
+                            </div>
+                        }
                     </div>
                 </div>
-                
             </React.Fragment>
         );
     }

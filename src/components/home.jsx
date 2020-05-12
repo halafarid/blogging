@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 
 import authorizationToken from '../services/tokenService';
+import * as BlogService from '../services/blogService';
 import * as AuthorService from '../services/authorService';
 
 import Navigation from './navbar';
@@ -12,22 +13,45 @@ import CreateBlogCard from './cards/createBlogCard';
 
 class Home extends Component {
     state = { 
-        account: {}
+        account: {},
+
+        pageNo: 1,
+        size: 5,
+        pageSize: 5
     }
 
     async componentDidMount() {
+        const pageNo = 1;
+        const size = 5;
+        var { data: blogs } = await BlogService.getAll(pageNo, size);
+
         const jwt = localStorage.getItem('JWT');
         const isTokenExist = authorizationToken(jwt);
 
         if(isTokenExist) 
             var { data: account } = await AuthorService.getProfile();
     
-        this.setState({ isTokenExist, account });
+        window.addEventListener('scroll', this.handleScroll, true);
+
+        this.setState({ isTokenExist, blogs, account, pageNo, size });
     }    
 
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
+      }
+    
+    handleScroll = async () => {
+        let { pageNo, size, pageSize } = this.state;
+        if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight ) {
+          size += pageSize;
+          var { data: blogs } = await BlogService.getAll(pageNo, size);
+          this.setState({ size, blogs });
+        }
+    };
+
     render() { 
-    const { blogs, blog, isShow, isValid, showUserProfile, handleModal, handleChange, handleAddTag, handleDeleteTag, handleBlog, handleDeleteBlog } = this.props;
-    const { isTokenExist, account } = this.state;
+    const { loading, blog, isShow, isValid, showUserProfile, handleModal, handleChange, handleAddTag, handleDeleteTag, handleBlog, handleDeleteBlog } = this.props;
+    const { isTokenExist, account, blogs } = this.state;
 
     return ( 
         <React.Fragment>
@@ -72,7 +96,7 @@ class Home extends Component {
                             </React.Fragment>
                         }
 
-                        {blogs.map(blog => (
+                        {blogs?.map(blog => (
                             <BlogsCards
                                 { ...this.props }
                                 key = {blog._id}
@@ -89,6 +113,17 @@ class Home extends Component {
                         ))}
                     </Col>
                 </Row>
+
+                {loading &&
+                    <div className="bubblingG">
+                        <span id="bubblingG_1">
+                        </span>
+                        <span id="bubblingG_2">
+                        </span>
+                        <span id="bubblingG_3">
+                        </span>
+                    </div>
+                }
             </div>
         </React.Fragment>
     );
@@ -96,73 +131,3 @@ class Home extends Component {
 }
  
 export default Home;
-
-// const Home = props => {
-//     const { isTokenExist, account, blogs, blog, isShow, isValid, showUserProfile, handleModal, handleChange, handleAddTag, handleDeleteTag, handleBlog, handleDeleteBlog } = props;
-
-//     return ( 
-//         <React.Fragment>
-//             <ToastContainer />
-
-//             <Navigation 
-//                 {...props}
-//                 isTokenExist = {isTokenExist}
-//             />
-
-//             <div className="container">
-//                 <Row>
-//                     <Col md={3}>
-//                         <img src={require("../images/advertising.jpg")} alt="Advertising" className="advertising"/>
-
-//                         {isTokenExist &&
-//                             <InformationCard
-//                                 {...props}
-//                                 isTokenExist = {isTokenExist}
-//                                 account = {account}
-//                             />
-//                         }
-//                     </Col>
-
-//                     <Col md={9}>
-
-//                         {isTokenExist && 
-//                             <React.Fragment>
-//                                 <CreateBlogCard 
-//                                     blog = {blog}
-//                                     isShow = {isShow}
-//                                     isValid = {isValid}
-
-//                                     handleModal = {handleModal}
-//                                     handleBlog = {handleBlog}
-//                                     handleChange = {handleChange}
-//                                     handleAddTag = {handleAddTag}
-//                                     handleDeleteTag = {handleDeleteTag}
-//                                 />
-
-//                                 <hr className="horizontal" />
-//                             </React.Fragment>
-//                         }
-
-//                         {blogs.map(blog => (
-//                             <BlogsCards
-//                                 { ...props }
-//                                 key = {blog._id}
-//                                 blog = {blog}
-//                                 currentId = {account?._id}
-//                                 isTokenExist = {isTokenExist}
-//                                 showUserProfile = {showUserProfile}
-
-//                                 isShow = {isShow}
-//                                 handleModal = {handleModal}
-//                                 handleBlog = {handleBlog}
-//                                 handleDeleteBlog = {handleDeleteBlog}
-//                             />
-//                         ))}
-//                     </Col>
-//                 </Row>
-//             </div>
-//         </React.Fragment>
-//     );
-// }
- 
-// export default Home;

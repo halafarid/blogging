@@ -30,14 +30,19 @@ class App extends Component {
 
     blogs: [],
     blogId: Number,
-    blog: {}
+    blog: {},
 
+    pageNo: 1,
+    size: 5,
+    pageSize: 5,
+
+    loading: false
   }
 
   async componentDidMount() {
-    // Give all posts
-    
-    var { data: blogs } = await BlogService.getAll();
+    const { pageNo, size } = this.state;
+
+    var { data: blogs } = await BlogService.getAll(pageNo, size);
 
     const jwt = localStorage.getItem('JWT');
     const isTokenExist = authorizationToken(jwt);
@@ -45,9 +50,26 @@ class App extends Component {
     if(isTokenExist) 
         var { data: account } = await AuthorService.getProfile();
 
+    window.addEventListener('scroll', this.handleScroll, true);
+
     this.setState({ isTokenExist, account, blogs });
-    // this.setState({ isTokenExist });
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll = async () => {
+    let { pageNo, size, pageSize, loading } = this.state;
+    if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight ) {
+      size += pageSize;
+      var { data: blogs } = await BlogService.getAll(pageNo, size);
+      loading = false;
+    } else {
+      loading = true;
+    }    
+    this.setState({ size, blogs, loading });
+  };
 
   handleModal = (bool, blogId) => {
     const isShow = bool;
@@ -128,7 +150,7 @@ class App extends Component {
   }
 
   render() { 
-    const { isTokenExist, account, isShow, isValid, blog, blogs } = this.state;
+    const { isTokenExist, account, isShow, isValid, blog, blogs, loading } = this.state;
 
     return ( 
       <React.Fragment>
@@ -144,17 +166,18 @@ class App extends Component {
                     {...props}
                     blog = {blog}
                     blogs = {blogs}
-                    account = {account}
                     isShow = {isShow}
                     isValid = {isValid}
+                    loading = {loading}
+                    account = {account}
                     isTokenExist = {isTokenExist}
-                    showUserProfile = {this.showUserProfile}
                     handleBlog = {this.handleBlog}
                     handleModal = {this.handleModal}
                     handleChange = {this.handleChange}
                     handleAddTag = {this.handleAddTag}
                     handleDeleteTag = {this.handleDeleteTag}
                     handleDeleteBlog = {this.handleDeleteBlog}
+                    showUserProfile = {this.showUserProfile}
                   />
                 }/>
 
@@ -162,7 +185,9 @@ class App extends Component {
                   <Profile 
                     {...props}
                     blog = {blog}
+                    loading = {loading}
                     currentId = {account?._id}
+                    handleScroll = {this.handleScroll}
                   />
                 }/>
                 <Route path="/profile" render = { props =>
@@ -171,7 +196,8 @@ class App extends Component {
                     blog = {blog}
                     isShow = {isShow}
                     isValid = {isValid}
-                    
+                    loading = {loading}
+                    handleScroll = {this.handleScroll}
                     handleBlog = {this.handleBlog}
                     handleModal = {this.handleModal}
                     handleChange = {this.handleChange}
