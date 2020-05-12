@@ -20,3 +20,7 @@ export function remove(id) {
 export function getAuthorBlogs(id) {
     return axios.get(`${apiUrl}/blogs/${id}`);
 }
+
+export function getBlogsOnSearch(type, data) {
+    return axios.get(`${apiUrl}/blogs?${type}=${data}`);
+}
