@@ -9,7 +9,7 @@ import { GiShadowFollower } from 'react-icons/gi';
 import { MdPlaylistAdd, MdPlaylistAddCheck } from 'react-icons/md';
 
 const InformationCard = props => {
-    const { account, match, followers, followed, handleFollowing, handleEditUser } = props;
+    const { account, match, followers, followed, blogsTotal, handleFollowing, handleEditUser } = props;
         
     const profilePath = match.path === '/profile';
     const profileUser = match.path === '/profile/:id';
@@ -80,7 +80,7 @@ const InformationCard = props => {
                             <div className="mr-3 form__icon">
                                 <FaBlog />
                             </div>
-                            <Media.Body className="list__body"> {account.blogs?.length} Blogs</Media.Body>
+                            <Media.Body className="list__body"> {blogsTotal} Blogs</Media.Body>
                         </Media>
 
                             {!profileUser && profilePath &&

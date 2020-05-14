@@ -14,7 +14,7 @@ export function update(id, blog) {
 }
 
 export function remove(id) {
-    return axios.delete(`${apiUrl}/blogs/${id}`, id);
+    return axios.delete(`${apiUrl}/blogs/${id}`);
 }
 
 export function getAuthorBlogs(id, pageNo, size) {

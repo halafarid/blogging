@@ -26,7 +26,10 @@ class Profile extends Component {
         
         pageNo: 1,
         size: 5,
-        pageSize: 5
+        pageSize: 5,
+
+        blogs: [],
+        blogsTotal: 0
     }
     
     async componentDidMount() {
@@ -40,23 +43,25 @@ class Profile extends Component {
         if (isTokenExist) {
             const { data: myProfile } = await AuthorService.getProfile();
             
-            // lw ktbt fel url id el profile bta3y => yro7 lel profile
+            // lw ktbt fel url id el profile bta3y aw dost 3la esmy fel home => yro7 lel profile
             if (id === myProfile._id) {
                 this.props.history.push('/profile');
-                this.setState({ account: myProfile });
+                const {data: {blogs, blogsTotal} } = await BlogService.getAuthorBlogs(myProfile._id, pageNo, size);
+                const { data: followers } = await AuthorService.getFollowers();
+                this.setState({ account: myProfile, followers, blogs, blogsTotal });
             }
             // User Profile
             else if (this.props.match.path === '/profile/:id') {
                 const { data: account } = await AuthorService.getById(id);
-                const {data: blogs } = await BlogService.getAuthorBlogs(id, pageNo, size);
+                const {data: {blogs, blogsTotal} } = await BlogService.getAuthorBlogs(id, pageNo, size);
                 const followed = myProfile.following.includes(account._id);
-                this.setState({ account, followed, blogs });
+                this.setState({ account, followed, blogs, blogsTotal });
             } 
             // My Profile
             else {
-                const {data: blogs } = await BlogService.getAuthorBlogs(myProfile._id, pageNo, size);
-                var { data: followers } = await AuthorService.getFollowers();
-                this.setState({ account: myProfile, followers, blogs });
+                const {data: {blogs, blogsTotal} } = await BlogService.getAuthorBlogs(myProfile._id, pageNo, size);
+                const { data: followers } = await AuthorService.getFollowers();
+                this.setState({ account: myProfile, followers, blogs, blogsTotal });
             }
                 
         window.addEventListener('scroll', this.handleScroll, true);
@@ -82,8 +87,8 @@ class Profile extends Component {
         let { account, pageNo, size, pageSize } = this.state;
         if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight ) {
           size += pageSize;
-          const {data: blogs } = await BlogService.getAuthorBlogs(account._id, pageNo, size);
-          this.setState({ size, blogs });
+          const {data: {blogs, blogsTotal} } = await BlogService.getAuthorBlogs(account._id, pageNo, size);
+          this.setState({ size, blogs, blogsTotal });
         }
     };
 
@@ -111,6 +116,7 @@ class Profile extends Component {
                                     account = {this.state.account}
                                     followed = {this.state.followed}
                                     followers = {this.state.followers}
+                                    blogsTotal = {this.state.blogsTotal}
 
                                     handleEditUser = {this.handleEditUser}
                                     handleFollowing = {this.handleFollowing}

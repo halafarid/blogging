@@ -39,12 +39,12 @@ const BlogsCards = props => {
                                 id="post__dropdown"
                                 title={ <BsThreeDots /> }
                             >
-                                <Dropdown.Item onClick={() => handleModal(true, blog._id)}> 
+                                <Dropdown.Item onClick={() => handleModal(true, blog)}> 
                                     <GrEdit /> 
                                     <span className="post__icon-dropdown">Edit Blog</span>
                                 </Dropdown.Item>
                                 <Dropdown.Divider />
-                                <Dropdown.Item onClick={() => handleDeleteBlog(blog._id)}>
+                                <Dropdown.Item onClick={() => handleDeleteBlog(blog)}>
                                     <RiDeleteBin6Line />
                                     <span className="post__icon-dropdown">Delete Blog</span>
                                 </Dropdown.Item>

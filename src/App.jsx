@@ -29,7 +29,7 @@ class App extends Component {
     isValid: false,
 
     blogs: [],
-    blogId: Number,
+    blogObj: {},
     blog: {},
 
     pageNo: 1,
@@ -51,7 +51,6 @@ class App extends Component {
         var { data: account } = await AuthorService.getProfile();
 
     window.addEventListener('scroll', this.handleScroll, true);
-
     this.setState({ isTokenExist, account, blogs });
   }
 
@@ -65,26 +64,27 @@ class App extends Component {
       size += pageSize;
       var { data: blogs } = await BlogService.getAll(pageNo, size);
       loading = false;
+      this.setState({ size, blogs });
     } else {
       loading = true;
     }    
-    this.setState({ size, blogs, loading });
+    this.setState({ loading });
   };
 
-  handleModal = (bool, blogId) => {
+  handleModal = (bool, blogObj) => {
     const isShow = bool;
     var { blog } = this.state;
 
     // Edit
-    if (blogId) {
-        blog = this.state.blogs.filter(blog => blog._id === blogId)[0];
+    if (blogObj) {
+      blog = blogObj;
     } else {
-        blog.title = '';
-        blog.body = '';
-        blog.tag = '';
-        blog.tags = [];
+      blog.title = '';
+      blog.body = '';
+      blog.tag = '';
+      blog.tags = [];
     }
-    this.setState({ isShow, blogId, blog });
+    this.setState({ isShow, blogObj, blog });
   }
 
   handleChange = e => {
@@ -127,22 +127,24 @@ class App extends Component {
 
   handleBlog = async blog => {
     const isShow = false;
-
+    const { blogs } = this.state;
     // Edit
-    if (this.state.blogId) {
+    if (this.state.blogObj) {
       toast.success('The blog is changed successfully');
       await BlogService.update(blog._id, blog);
     } else {
-      blog.authorId = this.state.account._id;
+      // blog.authorId = this.state.account._id;
+      console.log(blog);
+      blogs.unshift(blog);
       await BlogService.post(blog);
     }
-    this.setState({ isShow, blog });
+    this.setState({ isShow, blog, blogs });
   }
 
-  handleDeleteBlog = async id => {
-      let blogs = this.state.blogs.filter(blog => blog._id !== id);
-      await BlogService.remove(id);
-      this.setState({ blogs });
+  handleDeleteBlog = async blog => {
+    let blogs = this.state.blogs.filter(b => b._id !== blog._id);
+    await BlogService.remove(blog._id);
+    this.setState({ blogs });
   }
 
   showUserProfile = async id => {
