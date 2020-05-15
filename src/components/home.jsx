@@ -13,11 +13,7 @@ import CreateBlogCard from './cards/createBlogCard';
 
 class Home extends Component {
     state = { 
-        account: {},
-
-        pageNo: 1,
-        size: 5,
-        pageSize: 5
+        account: {}
     }
 
     async componentDidMount() {
@@ -31,27 +27,18 @@ class Home extends Component {
         if(isTokenExist) 
             var { data: account } = await AuthorService.getProfile();
     
-        window.addEventListener('scroll', this.handleScroll, true);
+        window.addEventListener('scroll', this.props.handleScroll, true);
 
         this.setState({ isTokenExist, blogs, account, pageNo, size });
     }    
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', this.handleScroll);
-      }
+        window.removeEventListener('scroll', this.props.handleScroll);
+    }
     
-    handleScroll = async () => {
-        let { pageNo, size, pageSize } = this.state;
-        if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight ) {
-          size += pageSize;
-          var { data: blogs } = await BlogService.getAll(pageNo, size);
-          this.setState({ size, blogs });
-        }
-    };
-
     render() { 
-    const { loading, blog, isShow, isValid, showUserProfile, handleModal, handleChange, handleAddTag, handleDeleteTag, handleBlog, handleDeleteBlog } = this.props;
-    const { isTokenExist, account, blogs } = this.state;
+    const { loading, blogs, blog, isShow, isValid, showUserProfile, handleModal, handleChange, handleAddTag, handleDeleteTag, handleBlog, handleDeleteBlog } = this.props;
+    const { isTokenExist, account } = this.state;
 
     return ( 
         <React.Fragment>

@@ -158,7 +158,7 @@ class Profile extends Component {
                             </Col>
                         </Row>
                        
-                        {loading &&
+                        {blogs?.length > 0 && loading &&
                             <div className="bubblingG bubblingG__profile">
                                 <span id="bubblingG_1">
                                 </span>

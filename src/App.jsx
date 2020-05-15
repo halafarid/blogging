@@ -127,18 +127,17 @@ class App extends Component {
 
   handleBlog = async blog => {
     const isShow = false;
-    const { blogs } = this.state;
+    const blogs = [...this.state.blogs];
     // Edit
     if (this.state.blogObj) {
-      toast.success('The blog is changed successfully');
+      toast.info('The blog is changed successfully');
       await BlogService.update(blog._id, blog);
     } else {
-      // blog.authorId = this.state.account._id;
-      console.log(blog);
-      blogs.unshift(blog);
-      await BlogService.post(blog);
+      toast.success('The blog is added successfully');
+      const { data: newBlog } = await BlogService.post(blog);
+      blogs.unshift(newBlog);
     }
-    this.setState({ isShow, blog, blogs });
+    this.setState({ isShow, blogs });
   }
 
   handleDeleteBlog = async blog => {
@@ -173,6 +172,7 @@ class App extends Component {
                     loading = {loading}
                     account = {account}
                     isTokenExist = {isTokenExist}
+                    handleScroll = {this.handleScroll}
                     handleBlog = {this.handleBlog}
                     handleModal = {this.handleModal}
                     handleChange = {this.handleChange}
@@ -196,6 +196,7 @@ class App extends Component {
                   <Profile 
                     {...props}
                     blog = {blog}
+                    blogs = {blogs}
                     isShow = {isShow}
                     isValid = {isValid}
                     loading = {loading}
