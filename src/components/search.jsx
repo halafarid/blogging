@@ -84,6 +84,7 @@ class Search extends Component {
                                         key = {blog._id}
                                         isTokenExist = {isTokenExist}
                                         fullName = {blog.authorId.fullName}
+                                        showUserProfile = {this.props.showUserProfile}
                                     />
                                 ))
                                 :

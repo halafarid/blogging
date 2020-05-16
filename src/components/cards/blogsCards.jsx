@@ -20,9 +20,13 @@ const BlogsCards = props => {
                 <Card.Body>
                     <div className="post__heading">
                         <div>
-                            {homePath? 
+                            { (homePath || match.path === '/search') ? 
                                 <Card.Title className="card__title" onClick={() => showUserProfile(blog.authorId._id)}>
+                                  {isTokenExist ? 
                                     <Link to={`profile/${blog.authorId._id}`} className="link">{blog.authorId.fullName}</Link>
+                                    :
+                                    blog.authorId.fullName
+                                  }
                                 </Card.Title>
                                 :
                                 <Card.Title className="card__title">{fullName}</Card.Title>

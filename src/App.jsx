@@ -214,11 +214,12 @@ class App extends Component {
                   <Search 
                     {...props}
                     isTokenExist = {this.isTokenExist}
+                    showUserProfile = {this.showUserProfile}
                   />
                 }/>
 
                 <Route path="/following" component={Following} />
-                <Route path="/followers" component={Followers} />
+                <Route path="/followers" component={Followers}/>
 
                 <Route path="/page404" component={Page404} />
 

@@ -91,13 +91,9 @@ class Profile extends Component {
           this.setState({ size, blogs, blogsTotal });
         }
     };
-
-    handleEditUser = () => {
-
-    }
     
     render() { 
-        const { isTokenExist, account, blogs } = this.state;
+        const { isTokenExist, account, blogs, followed, followers, blogsTotal } = this.state;
         const {loading, blog, isShow, isValid, handleModal, handleChange, handleAddTag, handleDeleteTag, handleBlog, handleDeleteBlog} = this.props;
 
         return ( 
@@ -113,12 +109,10 @@ class Profile extends Component {
                             <Col md={9}>
                                 <InformationCard 
                                     {...this.props}
-                                    account = {this.state.account}
-                                    followed = {this.state.followed}
-                                    followers = {this.state.followers}
-                                    blogsTotal = {this.state.blogsTotal}
-
-                                    handleEditUser = {this.handleEditUser}
+                                    account = {account}
+                                    followed = {followed}
+                                    followers = {followers}
+                                    blogsTotal = {blogsTotal}
                                     handleFollowing = {this.handleFollowing}
                                 />
 

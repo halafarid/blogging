@@ -2,14 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Media } from 'react-bootstrap';
 
-import { FaEnvelope, FaBlog, FaAddressBook, FaEdit} from "react-icons/fa";
+import { FaEnvelope, FaBlog, FaAddressBook } from "react-icons/fa";
 import { AiFillCalendar } from 'react-icons/ai';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { GiShadowFollower } from 'react-icons/gi';
 import { MdPlaylistAdd, MdPlaylistAddCheck } from 'react-icons/md';
 
 const InformationCard = props => {
-    const { account, match, followers, followed, blogsTotal, handleFollowing, handleEditUser } = props;
+    const { account, match, followers, followed, blogsTotal, handleFollowing } = props;
         
     const profilePath = match.path === '/profile';
     const profileUser = match.path === '/profile/:id';
@@ -39,14 +39,6 @@ const InformationCard = props => {
                                 {followed? <MdPlaylistAddCheck /> : < MdPlaylistAdd />}
                             </span>
                             <span>{followed ? 'Following' : 'Follow'}</span>
-                        </div>
-                    }
-
-                    {profilePath &&
-                        <div className='post__link post__link-pos text-success' onClick={handleEditUser}>
-                            <span className="post__icon post__icon-edit">
-                                <FaEdit />
-                            </span>
                         </div>
                     }
 

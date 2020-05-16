@@ -3,7 +3,7 @@ import React from 'react';
 const Page404 = () => {
     return ( 
         <React.Fragment>
-            <h1>Not Found</h1>
+            <img src={require('../images/page404.png')} alt="" className="page404"/>
         </React.Fragment>
      );
 }

@@ -25,6 +25,10 @@ export function handleFollows(id) {
     return axios.post(`${apiUrl}/authors/${id}/follows`);
 }
 
+export function getFollowing() {
+    return axios.get(`${apiUrl}/authors/following`);
+}
+
 export function getFollowers() {
     return axios.get(`${apiUrl}/authors/followers`);
 }
