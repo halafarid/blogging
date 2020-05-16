@@ -11,8 +11,12 @@ router.get('/:id', async (req, res, next) => {
     const size = parseInt(req.query.size);
     const { id } = req.params;
 
-    const blog = await Blog.find({ authorId: id}).skip(size * (pageNo - 1)).limit(size);
-    res.send(blog);
+    const blogs = await Blog.find({ authorId: id}).sort({ updatedAt: -1 }).skip(size * (pageNo - 1)).limit(size);
+    const total = await Blog.find({authorId: id}).count();
+    res.send({
+        blogs: blogs,
+        blogsTotal: total
+    });
 }); 
 
 router.get('/', 
@@ -48,13 +52,13 @@ router.get('/',
             const blogs = await Blog.find({}).sort({ updatedAt: -1 }).skip(size * (pageNo - 1)).limit(size).populate({
                 path: 'authorId',
                 select: '_id fullName email age address'
-            })
-            res.json(blogs);
+            });
+            res.send(blogs);
         }
 });
 
 router.post('/', authenticationMiddleware, async (req, res, next) => {
-    req.body.authorId= req.author._id;
+    req.body.authorId= req.author;
     const blog = new Blog(req.body);
     await blog.save();
     res.send(blog);

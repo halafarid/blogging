@@ -81,7 +81,7 @@ router.post('/:id/follows', authenticationMiddleware, async (req, res, next) => 
 
 router.get('/following', authenticationMiddleware, async (req, res, next) => {
     const myFollowing = await Author.findById(req.author._id).populate('following');
-    res.send(myFollowing);
+    res.send(myFollowing.following);
 });
 
 router.get('/followers', authenticationMiddleware, async (req, res, next) => {
