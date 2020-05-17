@@ -48,7 +48,7 @@ const InformationCard = props => {
                                 <div className="mr-3 form__icon">
                                     <FaEnvelope />
                                 </div>
-                                <Media.Body className="list__body">{account.email}</Media.Body>
+                                <Media.Body className="list__body list__body-email">{account.email}</Media.Body>
                             </Media>
                         }
 

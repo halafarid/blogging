@@ -8,6 +8,10 @@
     &__body {
         line-height: 2.5;
 
+        &-email {
+            word-break: break-word;
+        }
+
         &-text {
             color: $info !important;
             text-decoration: none !important;

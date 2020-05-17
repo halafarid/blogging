@@ -13,15 +13,15 @@
     }
 
     &__notfound {
-        text-align: right;
+        margin-left: 25%;
         
         &-heading {
             color: $secondary;
-            margin-bottom: 20px;
+            margin: auto auto 40px 70px;
         }
 
         &-img {
-            width: 80%;
+            width: 90%;
         }
     }
 }

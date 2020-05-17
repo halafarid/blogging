@@ -38,8 +38,10 @@ router.delete('/:id', authenticationMiddleware, authorizationMiddleware, async (
 router.post('/registeration', validationMiddleware(validations[0], validations[1]), async (req, res, next) => {
     const { fullName, email, password, age, address } = req.body;
     const author = new Author({ fullName, email, password, age, address });
+    
+    const matchEmail = await author.compareEmail(email);
+    if (matchEmail.length > 0) throw CustomError(400, 'This email is already exists!');
 
-    await author.compareEmail(email);
     await author.save();
     res.json(author);
 });

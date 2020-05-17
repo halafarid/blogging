@@ -11,7 +11,11 @@ const Navigation = props => {
         <React.Fragment>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="navbar">
                 <div className="container-fluid">
-                    <Navbar.Brand as={Link} to="/">Logo</Navbar.Brand>
+                    <div className="logo">
+                        <Navbar.Brand as={Link} to="/">
+                            <img src={require('../images/logo.png')} alt="Logo" className="logo-img"/>
+                        </Navbar.Brand>
+                    </div>
                     {props.isTokenExist && <Nav.Link className={props.location.pathname === '/search'? 'navbar__link active' : 'navbar__link'} as={Link} to="/search"> <FiSearch /> </Nav.Link>}
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
